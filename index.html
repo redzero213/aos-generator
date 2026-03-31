@@ -1,153 +1,153 @@
-!DOCTYPE html
-html lang=zh-Hant
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titleAOS 一鍵資料生成器 (紀錄版)title
-    script src=httpscdn.tailwindcss.comscript
-    style
-        @import url('httpsfonts.googleapis.comcss2family=Interwght@400;600&display=swap');
-        body { font-family 'Inter', 'PingFang HK', 'Microsoft JhengHei', sans-serif; }
-        .copy-btnactive { transform scale(0.95); }
-        .scroll-custom-webkit-scrollbar { width 6px; }
-        .scroll-custom-webkit-scrollbar-track { background #f1f1f1; }
-        .scroll-custom-webkit-scrollbar-thumb { background #888; border-radius 10px; }
-    style
-head
-body class=bg-gray-100 min-h-screen p-4 mdp-8
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOS 一鍵資料生成器 (紀錄版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', 'PingFang HK', 'Microsoft JhengHei', sans-serif; }
+        .copy-btn:active { transform: scale(0.95); }
+        .scroll-custom::-webkit-scrollbar { width: 6px; }
+        .scroll-custom::-webkit-scrollbar-track { background: #f1f1f1; }
+        .scroll-custom::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
 
-    div class=max-w-6xl mx-auto grid grid-cols-1 lggrid-cols-3 gap-8
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        !-- 左側：生成器主體 --
-        div class=lgcol-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit
-            h1 class=text-2xl font-bold text-gray-800 mb-6 text-center🍎 AOS 資料生成h1
+        <!-- 左側：生成器主體 -->
+        <div class="lg:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">🍎 AOS 資料生成</h1>
             
-            div class=space-y-4
-                div
-                    label class=block text-xs font-semibold text-gray-400 uppercase姓名label
-                    div class=flex gap-2
-                        input type=text id=name readonly class=w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm
-                        button onclick=copyToClipboard('name') class=copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs複製button
-                    div
-                div
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">姓名</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                        <button onclick="copyToClipboard('name')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                    </div>
+                </div>
 
-                div
-                    label class=block text-xs font-semibold text-gray-400 uppercase地址 Line 1label
-                    div class=flex gap-2
-                        input type=text id=addr1 readonly class=w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm
-                        button onclick=copyToClipboard('addr1') class=copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs複製button
-                    div
-                div
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="addr1" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                        <button onclick="copyToClipboard('addr1')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                    </div>
+                </div>
 
-                div
-                    label class=block text-xs font-semibold text-gray-400 uppercase地址 Line 2label
-                    div class=flex gap-2
-                        input type=text id=addr2 readonly class=w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm
-                        button onclick=copyToClipboard('addr2') class=copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs複製button
-                    div
-                div
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="addr2" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                        <button onclick="copyToClipboard('addr2')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                    </div>
+                </div>
 
-                div class=grid grid-cols-2 gap-4
-                    div
-                        label class=block text-xs font-semibold text-gray-400 uppercase電話label
-                        input type=text id=phone readonly class=w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm
-                    div
-                    div
-                        label class=block text-xs font-semibold text-gray-400 uppercaseEmaillabel
-                        input type=text id=email readonly class=w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm
-                    div
-                div
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase">電話</label>
+                        <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase">Email</label>
+                        <input type="text" id="email" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                    </div>
+                </div>
 
-                hr class=my-4
+                <hr class="my-4">
 
-                div
-                    label class=block text-sm font-bold text-blue-600 mb-1輸入 W 單號 (選填)label
-                    input type=text id=w_order placeholder=例如 W123456789 class=w-full border-2 border-blue-100 rounded-lg p-3 text-gray-800 focusborder-blue-500 outline-none transition
-                div
+                <div>
+                    <label class="block text-sm font-bold text-blue-600 mb-1">輸入 W 單號 (選填)</label>
+                    <input type="text" id="w_order" placeholder="例如: W123456789" class="w-full border-2 border-blue-100 rounded-lg p-3 text-gray-800 focus:border-blue-500 outline-none transition">
+                </div>
 
-                div class=flex flex-col gap-2 pt-2
-                    button onclick=generateAll() class=w-full bg-black text-white font-bold py-3 rounded-xl hoverbg-gray-800 transition shadow-md
+                <div class="flex flex-col gap-2 pt-2">
+                    <button onclick="generateAll()" class="w-full bg-black text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition shadow-md">
                         🎲 隨機生成新資料
-                    button
-                    button onclick=saveRecord() class=w-full bg-blue-600 text-white font-bold py-3 rounded-xl hoverbg-blue-700 transition shadow-md
+                    </button>
+                    <button onclick="saveRecord()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-md">
                         📥 儲存此紀錄
-                    button
-                div
-            div
-        div
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        !-- 右側：歷史紀錄 --
-        div class=lgcol-span-2 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[800px]
-            div class=flex justify-between items-center mb-6
-                h2 class=text-xl font-bold text-gray-800📋 已儲存紀錄h2
-                div class=flex gap-2
-                    button onclick=exportCSV() class=text-sm bg-green-600 text-white px-4 py-2 rounded-lg hoverbg-green-700匯出 CSVbutton
-                    button onclick=clearAll() class=text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hoverbg-red-200清空全部button
-                div
-            div
+        <!-- 右側：歷史紀錄 -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[800px]">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">📋 已儲存紀錄</h2>
+                <div class="flex gap-2">
+                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">匯出 CSV</button>
+                    <button onclick="clearAll()" class="text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200">清空全部</button>
+                </div>
+            </div>
 
-            div class=overflow-x-auto scroll-custom flex-grow
-                table class=w-full text-left border-collapse
-                    thead class=sticky top-0 bg-white shadow-sm
-                        tr class=text-xs font-bold text-gray-500 border-b uppercase
-                            th class=p-3W 單號th
-                            th class=p-3姓名th
-                            th class=p-3電話th
-                            th class=p-3地址th
-                            th class=p-3 text-right操作th
-                        tr
-                    thead
-                    tbody id=recordList class=text-sm text-gray-600
-                        !-- 紀錄會出現在這裡 --
-                    tbody
-                table
-            div
-        div
+            <div class="overflow-x-auto scroll-custom flex-grow">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-white shadow-sm">
+                        <tr class="text-xs font-bold text-gray-500 border-b uppercase">
+                            <th class="p-3">W 單號</th>
+                            <th class="p-3">姓名</th>
+                            <th class="p-3">電話</th>
+                            <th class="p-3">地址</th>
+                            <th class="p-3 text-right">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordList" class="text-sm text-gray-600">
+                        <!-- 紀錄會出現在這裡 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    div
+    </div>
 
-    div id=toast class=fixed bottom-10 left-12 transform -translate-x-12 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50">
         已複製
-    div
+    </div>
 
-    script
-         資料庫
-        const firstNames = [James, Mary, John, Patricia, Robert, Jennifer, Michael, Linda, William, Elizabeth];
-        const lastNames = [Chan, Lee, Wong, Ho, Cheung, Lau, Lam, Leung, Ng, Kwok];
-        const chineseSurnames = [陳, 李, 張, 黃, 何, 劉, 林, 梁, 吳, 郭];
-        const chineseNames = [大文, 小明, 家強, 志偉, 美儀, 雅詩, 嘉欣, 俊傑];
-        const buildingsCH = [嘉里大廈, 信和中心, 康怡花園, 新城市廣場, 海港城, 德福花園, 太古城];
-        const buildingsEN = [Kerry Centre, Sino Centre, Kornhill Gardens, New Town Plaza, Harbour City, Telford Gardens];
-        const streetsCH = [彌敦道, 軒尼詩道, 廣東道, 德輔道, 亞皆老街, 皇后大道中];
-        const streetsEN = [Nathan Road, Hennessy Road, Canton Road, Des Voeux Road, Argyle Street];
-        const districtsCH = [旺角, 尖沙咀, 銅鑼灣, 中環, 觀塘, 沙田];
-        const districtsEN = [Mong Kok, Tsim Sha Tsui, Causeway Bay, Central, Kwun Tong, Shatin];
-        const domains = [gmail.com, outlook.com, yahoo.com.hk];
+    <script>
+        // 資料庫
+        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth"];
+        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok"];
+        const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭"];
+        const chineseNames = ["大文", "小明", "家強", "志偉", "美儀", "雅詩", "嘉欣", "俊傑"];
+        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城"];
+        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens"];
+        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中"];
+        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street"];
+        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田"];
+        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin"];
+        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk"];
 
-        let records = JSON.parse(localStorage.getItem('aos_records')  '[]');
+        let records = JSON.parse(localStorage.getItem('aos_records') || '[]');
 
-        function randomInt(min, max) { return Math.floor(Math.random()  (max - min + 1) + min); }
+        function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
 
         function generateAll() {
             const nameType = randomInt(0, 2);
-            let finalName = , emailBase = ;
+            let finalName = "", emailBase = "";
 
             if (nameType === 0) {
                 finalName = chineseSurnames[randomInt(0, chineseSurnames.length-1)] + chineseNames[randomInt(0, chineseNames.length-1)];
-                emailBase = user + randomInt(1000, 9999);
+                emailBase = "user" + randomInt(1000, 9999);
             } else {
                 const fn = firstNames[randomInt(0, firstNames.length-1)];
                 const ln = lastNames[randomInt(0, lastNames.length-1)];
-                finalName = fn +   + ln;
+                finalName = fn + " " + ln;
                 emailBase = (fn.toLowerCase() + ln.toLowerCase() + randomInt(10, 99));
             }
             document.getElementById('name').value = finalName;
 
-            const isAddrEn = Math.random()  0.5;
+            const isAddrEn = Math.random() > 0.5;
             const floor = randomInt(1, 45), unit = String.fromCharCode(65 + randomInt(0, 8)), streetNo = randomInt(1, 888);
 
             if (isAddrEn) {
-                document.getElementById('addr1').value = `Flat ${unit}, ${floor}F, ${buildingsEN[randomInt(0, buildingsEN.length-1)]}`;
+                document.getElementById('addr1').value = `Flat ${unit}, ${floor}/F, ${buildingsEN[randomInt(0, buildingsEN.length-1)]}`;
                 document.getElementById('addr2').value = `${streetNo} ${streetsEN[randomInt(0, streetsEN.length-1)]}, ${districtsEN[randomInt(0, districtsEN.length-1)]}`;
             } else {
                 document.getElementById('addr1').value = `${buildingsCH[randomInt(0, buildingsCH.length-1)]} ${floor}樓 ${unit}室`;
@@ -156,55 +156,55 @@ body class=bg-gray-100 min-h-screen p-4 mdp-8
 
             const prefixes = [5, 6, 9];
             let phone = prefixes[randomInt(0, 2)].toString();
-            for(let i=0; i7; i++) phone += randomInt(0, 9);
+            for(let i=0; i<7; i++) phone += randomInt(0, 9);
             document.getElementById('phone').value = phone;
             document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
-            document.getElementById('w_order').value = ;  清空單號輸入框
+            document.getElementById('w_order').value = ""; // 清空單號輸入框
         }
 
         function saveRecord() {
             const newRecord = {
-                id Date.now(),
-                w_order document.getElementById('w_order').value  '未填寫',
-                name document.getElementById('name').value,
-                addr1 document.getElementById('addr1').value,
-                addr2 document.getElementById('addr2').value,
-                phone document.getElementById('phone').value,
-                email document.getElementById('email').value,
-                date new Date().toLocaleString()
+                id: Date.now(),
+                w_order: document.getElementById('w_order').value || '未填寫',
+                name: document.getElementById('name').value,
+                addr1: document.getElementById('addr1').value,
+                addr2: document.getElementById('addr2').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                date: new Date().toLocaleString()
             };
 
             records.unshift(newRecord);
             localStorage.setItem('aos_records', JSON.stringify(records));
             renderRecords();
-            showToast(紀錄已儲存);
+            showToast("紀錄已儲存");
         }
 
         function renderRecords() {
             const list = document.getElementById('recordList');
-            list.innerHTML = records.map(r = `
-                tr class=border-b hoverbg-gray-50 transition
-                    td class=p-3 font-mono text-blue-600 font-bold${r.w_order}td
-                    td class=p-3${r.name}td
-                    td class=p-3${r.phone}td
-                    td class=p-3 text-xs text-gray-400
-                        ${r.addr1}br${r.addr2}
-                    td
-                    td class=p-3 text-right
-                        button onclick=deleteRecord(${r.id}) class=text-red-400 hovertext-red-600刪除button
-                    td
-                tr
+            list.innerHTML = records.map(r => `
+                <tr class="border-b hover:bg-gray-50 transition">
+                    <td class="p-3 font-mono text-blue-600 font-bold">${r.w_order}</td>
+                    <td class="p-3">${r.name}</td>
+                    <td class="p-3">${r.phone}</td>
+                    <td class="p-3 text-xs text-gray-400">
+                        ${r.addr1}<br>${r.addr2}
+                    </td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteRecord(${r.id})" class="text-red-400 hover:text-red-600">刪除</button>
+                    </td>
+                </tr>
             `).join('');
         }
 
         function deleteRecord(id) {
-            records = records.filter(r = r.id !== id);
+            records = records.filter(r => r.id !== id);
             localStorage.setItem('aos_records', JSON.stringify(records));
             renderRecords();
         }
 
         function clearAll() {
-            if(confirm(確定要刪除所有紀錄嗎？)) {
+            if(confirm("確定要刪除所有紀錄嗎？")) {
                 records = [];
                 localStorage.setItem('aos_records', JSON.stringify(records));
                 renderRecords();
@@ -212,13 +212,13 @@ body class=bg-gray-100 min-h-screen p-4 mdp-8
         }
 
         function exportCSV() {
-            if (records.length === 0) return showToast(沒有紀錄可匯出);
-            let csv = uFEFFW單號,姓名,電話,Email,地址1,地址2,日期n;
-            records.forEach(r = {
-                csv += `${r.w_order},${r.name},${r.phone},${r.email},${r.addr1},${r.addr2},${r.date}n`;
+            if (records.length === 0) return showToast("沒有紀錄可匯出");
+            let csv = "\uFEFFW單號,姓名,電話,Email,地址1,地址2,日期\n";
+            records.forEach(r => {
+                csv += `"${r.w_order}","${r.name}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.date}"\n`;
             });
-            const blob = new Blob([csv], { type 'textcsv;charset=utf-8;' });
-            const link = document.createElement(a);
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = `aos_orders_${new Date().getTime()}.csv`;
             link.click();
@@ -228,20 +228,23 @@ body class=bg-gray-100 min-h-screen p-4 mdp-8
             const input = document.getElementById(id);
             input.select();
             document.execCommand('copy');
-            showToast(已複製到剪貼簿);
+            showToast("已複製到剪貼簿");
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
             toast.style.opacity = '1';
-            setTimeout(() = toast.style.opacity = '0', 1500);
+            setTimeout(() => toast.style.opacity = '0', 1500);
         }
 
-        window.onload = () = {
+        window.onload = () => {
             generateAll();
             renderRecords();
         };
+    </script>
+</body>
+</html>
     script
 body
 html
