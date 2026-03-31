@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS 一鍵資料生成器 (紀錄版)</title>
+    <title>AOS 一鍵資料生成器 (加強亂打版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -24,7 +24,7 @@
             
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">姓名</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">姓名 (亂打組合)</label>
                     <div class="flex gap-2">
                         <input type="text" id="name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                         <button onclick="copyToClipboard('name')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1 (單位/大廈)</label>
                     <div class="flex gap-2">
                         <input type="text" id="addr1" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                         <button onclick="copyToClipboard('addr1')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2 (街道/地區)</label>
                     <div class="flex gap-2">
                         <input type="text" id="addr2" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                         <button onclick="copyToClipboard('addr2')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -49,7 +49,7 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase">電話</label>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase">電話 (非 5/6/9)</label>
                         <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                     </div>
                     <div>
@@ -111,57 +111,89 @@
     </div>
 
     <script>
-        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth"];
-        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok"];
-        const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭"];
-        const chineseNames = ["大文", "小明", "家強", "志偉", "美儀", "雅詩", "嘉欣", "俊傑"];
-        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城"];
-        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens"];
-        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中"];
-        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street"];
-        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田"];
-        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin"];
-        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk"];
+        // 大幅擴充資料庫
+        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Nancy", "Daniel", "Lisa", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Steven", "Ashley", "Paul", "Kimberly", "Andrew", "Emily", "Joshua", "Donna", "Kenneth", "Michelle"];
+        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
+        const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
+        const chineseNames = ["大文", "小明", "家強", "志偉", "美儀", "雅詩", "嘉欣", "俊傑", "建華", "浩然", "淑賢", "惠珍", "婉婷", "國強", "德華", "朝偉", "青霞", "曼玉", "嘉玲", "子丹"];
+        
+        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城", "南豐中心", "美孚新邨", "沙田第一城", "天盛苑", "尚悅", "環宇海灣", "名城", "峻瀅", "中心大廈", "工業中心", "商業中心"];
+        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre", "Mei Foo Sun Chuen", "City One", "Grand Yoho", "The Reach", "City Point", "Festival City", "The Beaumount", "Central Plaza", "Global Trade Centre"];
+        
+        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中", "長沙灣道", "青山公路", "大埔道", "窩打老道", "寶琳路", "馬頭圍道", "漆咸道北", "英皇道"];
+        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central", "Cheung Sha Wan Road", "Castle Peak Road", "Tai Po Road", "Waterloo Road", "Po Lam Road", "Ma Tau Wai Road", "King's Road"];
+        
+        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田", "荃灣", "元朗", "大埔", "屯門", "將軍澳", "上水", "葵涌", "柴灣", "香港仔"];
+        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long", "Tai Po", "Tuen Mun", "Tseung Kwan O", "Sheung Shui", "Kwai Chung", "Chai Wan", "Aberdeen"];
+        
+        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com", "hotmail.com", "msn.com", "proton.me", "aol.com"];
 
         let records = JSON.parse(localStorage.getItem('aos_records') || '[]');
 
         function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
+        function randomStr(len) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let res = '';
+            for(let i=0; i<len; i++) res += chars.charAt(randomInt(0, chars.length-1));
+            return res;
+        }
 
         function generateAll() {
-            const nameType = randomInt(0, 2);
+            // 姓名多樣化
+            const nameType = randomInt(0, 3);
             let finalName = "", emailBase = "";
 
-            if (nameType === 0) {
+            if (nameType === 0) { // 中文名
                 finalName = chineseSurnames[randomInt(0, chineseSurnames.length-1)] + chineseNames[randomInt(0, chineseNames.length-1)];
-                emailBase = "user" + randomInt(1000, 9999);
-            } else {
+                emailBase = "user" + randomInt(1000, 99999);
+            } else if (nameType === 1) { // 英文全名
                 const fn = firstNames[randomInt(0, firstNames.length-1)];
                 const ln = lastNames[randomInt(0, lastNames.length-1)];
                 finalName = fn + " " + ln;
-                emailBase = (fn.toLowerCase() + ln.toLowerCase() + randomInt(10, 99));
+                emailBase = (fn.toLowerCase() + ln.toLowerCase() + randomInt(10, 999));
+            } else { // 英文名+中文姓
+                const fn = firstNames[randomInt(0, firstNames.length-1)];
+                const ln = lastNames[randomInt(0, lastNames.length-1)];
+                finalName = fn + " " + ln + " " + randomStr(1); // 加個隨機字母更亂
+                emailBase = (fn.toLowerCase() + randomStr(2).toLowerCase() + randomInt(100, 999));
             }
             document.getElementById('name').value = finalName;
 
+            // 地址 Line 1
             const isAddrEn = Math.random() > 0.5;
-            const floor = randomInt(1, 45), unit = String.fromCharCode(65 + randomInt(0, 8)), streetNo = randomInt(1, 888);
+            const floor = randomInt(1, 60), streetNo = randomInt(1, 999);
+            const randomUnit = randomStr(1) + randomInt(1, 20); // 如 A12, C5
 
             if (isAddrEn) {
-                document.getElementById('addr1').value = `Flat ${unit}, ${floor}/F, ${buildingsEN[randomInt(0, buildingsEN.length-1)]}`;
-                document.getElementById('addr2').value = `${streetNo} ${streetsEN[randomInt(0, streetsEN.length-1)]}, ${districtsEN[randomInt(0, districtsEN.length-1)]}`;
+                const bldg = buildingsEN[randomInt(0, buildingsEN.length-1)];
+                document.getElementById('addr1').value = `Unit ${randomUnit}, ${floor}/F, ${bldg} ${randomStr(1)}`;
+                
+                const street = streetsEN[randomInt(0, streetsEN.length-1)];
+                const dist = districtsEN[randomInt(0, districtsEN.length-1)];
+                document.getElementById('addr2').value = `No. ${streetNo} ${street}, ${dist}`;
             } else {
-                document.getElementById('addr1').value = `${buildingsCH[randomInt(0, buildingsCH.length-1)]} ${floor}樓 ${unit}室`;
-                document.getElementById('addr2').value = `${streetsCH[randomInt(0, streetsCH.length-1)]}${streetNo}號 ${districtsCH[randomInt(0, districtsCH.length-1)]}`;
+                const bldg = buildingsCH[randomInt(0, buildingsCH.length-1)];
+                document.getElementById('addr1').value = `${bldg} ${randomStr(1)}座 ${floor}樓 ${randomUnit}室`;
+                
+                const street = streetsCH[randomInt(0, streetsCH.length-1)];
+                const dist = districtsCH[randomInt(0, districtsCH.length-1)];
+                document.getElementById('addr2').value = `${street}${streetNo}號 ${dist}`;
             }
 
-            const prefixes = [5, 6, 9];
-            let phone = prefixes[randomInt(0, 2)].toString();
+            // 電話 (避開 5/6/9)
+            // 隨機選 2, 3, 4, 7, 8 開頭
+            const safePrefixes = [2, 3, 4, 7, 8];
+            let phone = safePrefixes[randomInt(0, safePrefixes.length-1)].toString();
             for(let i=0; i<7; i++) phone += randomInt(0, 9);
             document.getElementById('phone').value = phone;
+
+            // Email
             document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
             document.getElementById('w_order').value = "";
         }
 
         function saveRecord() {
+            if (!document.getElementById('name').value) return showToast("請先生成資料");
             const newRecord = {
                 id: Date.now(),
                 w_order: document.getElementById('w_order').value || '未填寫',
