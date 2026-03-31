@@ -112,7 +112,7 @@
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800">📋 詳細落單紀錄</h2>
-                    <p class="text-xs text-gray-400">點擊「編輯」可直接修改資料內容</p>
+                    <p class="text-xs text-gray-400">點擊「編輯」可直接修改資料內容 (已啟動自動儲存)</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">匯出 Excel (CSV)</button>
@@ -147,6 +147,7 @@
     </div>
 
     <script>
+        const STORAGE_KEY = 'aos_records_v3';
         const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Nancy", "Daniel", "Lisa", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Steven", "Ashley", "Paul", "Kimberly", "Andrew", "Emily", "Joshua", "Donna", "Kenneth", "Michelle"];
         const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
         const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
@@ -159,8 +160,15 @@
         const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long", "Tai Po", "Tuen Mun"];
         const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com", "hotmail.com"];
 
-        let records = JSON.parse(localStorage.getItem('aos_records_v3') || '[]');
+        let records = [];
         let editingId = null;
+
+        // 初始化加載
+        function initStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            records = saved ? JSON.parse(saved) : [];
+            renderRecords();
+        }
 
         function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
         function randomStr(len) {
@@ -237,13 +245,17 @@
             };
 
             records.unshift(newRecord);
-            localStorage.setItem('aos_records_v3', JSON.stringify(records));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
             renderRecords();
-            showToast("全資料已儲存");
+            showToast("全資料已儲存到瀏覽器");
         }
 
         function renderRecords() {
             const list = document.getElementById('recordList');
+            if (records.length === 0) {
+                list.innerHTML = `<tr><td colspan="7" class="p-10 text-center text-gray-300">暫無紀錄</td></tr>`;
+                return;
+            }
             list.innerHTML = records.map(r => {
                 if (editingId === r.id) {
                     return `
@@ -298,16 +310,8 @@
             }).join('');
         }
 
-        // 編輯邏輯
-        function startEdit(id) {
-            editingId = id;
-            renderRecords();
-        }
-
-        function cancelEdit() {
-            editingId = null;
-            renderRecords();
-        }
+        function startEdit(id) { editingId = id; renderRecords(); }
+        function cancelEdit() { editingId = null; renderRecords(); }
 
         function submitEdit(id) {
             const recordIndex = records.findIndex(r => r.id === id);
@@ -322,7 +326,7 @@
                 records[recordIndex].card = document.getElementById(`edit_card_${id}`).value;
                 records[recordIndex].amount = document.getElementById(`edit_amount_${id}`).value;
                 
-                localStorage.setItem('aos_records_v3', JSON.stringify(records));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                 editingId = null;
                 renderRecords();
                 showToast("更新成功");
@@ -332,7 +336,7 @@
         function deleteRecord(id) {
             if(confirm("確定刪除此紀錄？")) {
                 records = records.filter(r => r.id !== id);
-                localStorage.setItem('aos_records_v3', JSON.stringify(records));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                 renderRecords();
             }
         }
@@ -340,7 +344,7 @@
         function clearAll() {
             if(confirm("確定要清空所有紀錄嗎？此動作無法復原。")) {
                 records = [];
-                localStorage.setItem('aos_records_v3', JSON.stringify(records));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                 renderRecords();
             }
         }
@@ -372,10 +376,11 @@
             setTimeout(() => toast.style.opacity = '0', 1500);
         }
 
-        window.onload = () => {
+        // 確保視窗載入後讀取資料
+        window.addEventListener('load', () => {
+            initStorage();
             generateAll();
-            renderRecords();
-        };
+        });
     </script>
 </body>
 </html>
