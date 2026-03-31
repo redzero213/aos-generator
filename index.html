@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS 一鍵資料生成器 (單獨複製版)</title>
+    <title>AOS 一鍵資料生成器 (具備編輯功能版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
         body { font-family: 'Inter', 'PingFang HK', 'Microsoft JhengHei', sans-serif; }
         .copy-btn:active { transform: scale(0.95); }
-        .scroll-custom::-webkit-scrollbar { width: 6px; }
+        .scroll-custom::-webkit-scrollbar { height: 8px; width: 6px; }
         .scroll-custom::-webkit-scrollbar-track { background: #f1f1f1; }
         .scroll-custom::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        input:focus { border-color: #3b82f6; outline: none; ring: 2px; ring-color: #bfdbfe; }
+        .edit-input { @apply w-full bg-white border border-blue-300 rounded px-1 py-0.5 text-xs focus:bg-blue-50; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-[1600px] mx-auto grid grid-cols-1 xl:grid-cols-4 gap-8">
         
         <!-- 左側：生成器主體 -->
-        <div class="lg:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit">
+        <div class="xl:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-8">
             <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">🍎 AOS 資料生成</h1>
             
             <div class="space-y-4">
-                <!-- 姓與名分拆 -->
+                <!-- 姓與名 -->
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase">姓 (Last Name)</label>
@@ -42,7 +44,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1 (單位/大廈)</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1</label>
                     <div class="flex gap-2">
                         <input type="text" id="addr1" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                         <button onclick="copyToClipboard('addr1')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -50,7 +52,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2 (街道/地區)</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2</label>
                     <div class="flex gap-2">
                         <input type="text" id="addr2" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
                         <button onclick="copyToClipboard('addr2')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -58,7 +60,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">電話 (非 5/6/9)</label>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">電話</label>
                     <div class="flex gap-2">
                         <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono">
                         <button onclick="copyToClipboard('phone')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
@@ -73,11 +75,25 @@
                     </div>
                 </div>
 
-                <hr class="my-4">
+                <hr class="my-4 border-dashed">
 
-                <div>
-                    <label class="block text-sm font-bold text-blue-600 mb-1">輸入 W 單號 (選填)</label>
-                    <input type="text" id="w_order" placeholder="例如: W123456789" class="w-full border-2 border-blue-100 rounded-lg p-3 text-gray-800 focus:border-blue-500 outline-none transition">
+                <!-- 記錄資訊 -->
+                <div class="space-y-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                    <h3 class="text-sm font-bold text-blue-700 mb-2">📋 交易備註 (手動輸入)</h3>
+                    <div>
+                        <label class="block text-[10px] font-bold text-blue-400 uppercase">W 單號</label>
+                        <input type="text" id="w_order" placeholder="W123456789" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">付款資訊/自定義</label>
+                            <input type="text" id="card_info" placeholder="如 1234 或 備註" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">金額 (HKD)</label>
+                            <input type="number" id="amount" placeholder="15999" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex flex-col gap-2 pt-2">
@@ -85,35 +101,40 @@
                         🎲 隨機生成新資料
                     </button>
                     <button onclick="saveRecord()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-md">
-                        📥 儲存此紀錄
+                        📥 儲存完整紀錄
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- 右側：歷史紀錄 -->
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[800px]">
+        <div class="xl:col-span-3 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[850px]">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-gray-800">📋 已儲存紀錄</h2>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">📋 詳細落單紀錄</h2>
+                    <p class="text-xs text-gray-400">點擊「編輯」可直接修改資料內容</p>
+                </div>
                 <div class="flex gap-2">
-                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">匯出 CSV</button>
-                    <button onclick="clearAll()" class="text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200">清空全部</button>
+                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">匯出 Excel (CSV)</button>
+                    <button onclick="clearAll()" class="text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200 transition">清空全部</button>
                 </div>
             </div>
 
-            <div class="overflow-x-auto scroll-custom flex-grow">
-                <table class="w-full text-left border-collapse">
-                    <thead class="sticky top-0 bg-white shadow-sm">
-                        <tr class="text-xs font-bold text-gray-500 border-b uppercase">
-                            <th class="p-3">W 單號</th>
-                            <th class="p-3">姓名</th>
-                            <th class="p-3">電話</th>
-                            <th class="p-3">地址</th>
-                            <th class="p-3 text-right">操作</th>
+            <div class="overflow-x-auto scroll-custom flex-grow border rounded-xl">
+                <table class="w-full text-left border-collapse min-w-[1100px]">
+                    <thead class="sticky top-0 bg-gray-50 shadow-sm z-10">
+                        <tr class="text-[11px] font-bold text-gray-500 border-b uppercase">
+                            <th class="p-3 bg-gray-50 w-32">W 單號</th>
+                            <th class="p-3 bg-gray-50 w-40">姓名</th>
+                            <th class="p-3 bg-gray-50 w-48">電話 / Email</th>
+                            <th class="p-3 bg-gray-50">地址詳情</th>
+                            <th class="p-3 bg-gray-50 w-32">付款/金額</th>
+                            <th class="p-3 bg-gray-50 w-32">日期</th>
+                            <th class="p-3 bg-gray-50 text-right w-32">操作</th>
                         </tr>
                     </thead>
                     <tbody id="recordList" class="text-sm text-gray-600">
-                        <!-- 紀錄會出現在這裡 -->
+                        <!-- 紀錄加載點 -->
                     </tbody>
                 </table>
             </div>
@@ -130,19 +151,16 @@
         const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
         const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
         const chineseNames = ["大文", "小明", "家強", "志偉", "美儀", "雅詩", "嘉欣", "俊傑", "建華", "浩然", "淑賢", "惠珍", "婉婷", "國強", "德華", "朝偉", "青霞", "曼玉", "嘉玲", "子丹"];
-        
-        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城", "南豐中心", "美孚新邨", "沙田第一城", "天盛苑", "尚悅", "環宇海灣", "名城", "峻瀅", "中心大廈", "工業中心", "商業中心"];
-        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre", "Mei Foo Sun Chuen", "City One", "Grand Yoho", "The Reach", "City Point", "Festival City", "The Beaumount", "Central Plaza", "Global Trade Centre"];
-        
-        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中", "長沙灣道", "青山公路", "大埔道", "窩打老道", "寶琳路", "馬頭圍道", "漆咸道北", "英皇道"];
-        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central", "Cheung Sha Wan Road", "Castle Peak Road", "Tai Po Road", "Waterloo Road", "Po Lam Road", "Ma Tau Wai Road", "King's Road"];
-        
-        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田", "荃灣", "元朗", "大埔", "屯門", "將軍澳", "上水", "葵涌", "柴灣", "香港仔"];
-        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long", "Tai Po", "Tuen Mun", "Tseung Kwan O", "Sheung Shui", "Kwai Chung", "Chai Wan", "Aberdeen"];
-        
-        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com", "hotmail.com", "msn.com", "proton.me", "aol.com"];
+        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城", "南豐中心", "美孚新邨", "沙田第一城", "天盛苑", "尚悅", "環宇海灣", "名城", "峻瀅"];
+        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre", "Mei Foo Sun Chuen", "City One", "Grand Yoho", "The Reach"];
+        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中", "長沙灣道", "青山公路", "大埔道", "窩打老道"];
+        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central", "Cheung Sha Wan Road", "Castle Peak Road"];
+        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田", "荃灣", "元朗", "大埔", "屯門"];
+        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long", "Tai Po", "Tuen Mun"];
+        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com", "hotmail.com"];
 
-        let records = JSON.parse(localStorage.getItem('aos_records') || '[]');
+        let records = JSON.parse(localStorage.getItem('aos_records_v3') || '[]');
+        let editingId = null;
 
         function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
         function randomStr(len) {
@@ -153,7 +171,7 @@
         }
 
         function generateAll() {
-            const nameType = randomInt(0, 2);
+            const nameType = randomInt(0, 1);
             let finalLName = "", finalFName = "", emailBase = "";
 
             if (nameType === 0) { // 中文
@@ -193,7 +211,10 @@
             document.getElementById('phone').value = phone;
 
             document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
+            
             document.getElementById('w_order').value = "";
+            document.getElementById('card_info').value = "";
+            document.getElementById('amount').value = "";
         }
 
         function saveRecord() {
@@ -203,8 +224,11 @@
 
             const newRecord = {
                 id: Date.now(),
-                w_order: document.getElementById('w_order').value || '未填寫',
-                name: lname + fname,
+                w_order: document.getElementById('w_order').value || 'N/A',
+                card: document.getElementById('card_info').value || '----',
+                amount: document.getElementById('amount').value || '0',
+                lname: lname,
+                fname: fname,
                 addr1: document.getElementById('addr1').value,
                 addr2: document.getElementById('addr2').value,
                 phone: document.getElementById('phone').value,
@@ -213,52 +237,124 @@
             };
 
             records.unshift(newRecord);
-            localStorage.setItem('aos_records', JSON.stringify(records));
+            localStorage.setItem('aos_records_v3', JSON.stringify(records));
             renderRecords();
-            showToast("紀錄已儲存");
+            showToast("全資料已儲存");
         }
 
         function renderRecords() {
             const list = document.getElementById('recordList');
-            list.innerHTML = records.map(r => `
+            list.innerHTML = records.map(r => {
+                if (editingId === r.id) {
+                    return `
+                    <tr class="border-b bg-blue-50 transition">
+                        <td class="p-2"><input type="text" id="edit_w_${r.id}" value="${r.w_order}" class="edit-input font-bold text-blue-600"></td>
+                        <td class="p-2">
+                            <input type="text" id="edit_lname_${r.id}" value="${r.lname}" class="edit-input mb-1" placeholder="姓">
+                            <input type="text" id="edit_fname_${r.id}" value="${r.fname}" class="edit-input" placeholder="名">
+                        </td>
+                        <td class="p-2">
+                            <input type="text" id="edit_phone_${r.id}" value="${r.phone}" class="edit-input mb-1" placeholder="電話">
+                            <input type="text" id="edit_email_${r.id}" value="${r.email}" class="edit-input" placeholder="Email">
+                        </td>
+                        <td class="p-2">
+                            <input type="text" id="edit_addr1_${r.id}" value="${r.addr1}" class="edit-input mb-1 text-[10px]">
+                            <input type="text" id="edit_addr2_${r.id}" value="${r.addr2}" class="edit-input text-[10px]">
+                        </td>
+                        <td class="p-2">
+                            <input type="text" id="edit_card_${r.id}" value="${r.card}" class="edit-input mb-1" placeholder="付款資訊">
+                            <input type="number" id="edit_amount_${r.id}" value="${r.amount}" class="edit-input font-bold text-green-600">
+                        </td>
+                        <td class="p-2 text-[10px] text-gray-400">${r.date}</td>
+                        <td class="p-2 text-right">
+                            <button onclick="submitEdit(${r.id})" class="text-blue-600 font-bold hover:underline mr-2">儲存</button>
+                            <button onclick="cancelEdit()" class="text-gray-400 hover:underline">取消</button>
+                        </td>
+                    </tr>`;
+                }
+                return `
                 <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="p-3 font-mono text-blue-600 font-bold">${r.w_order}</td>
-                    <td class="p-3">${r.name}</td>
-                    <td class="p-3 font-mono">${r.phone}</td>
-                    <td class="p-3 text-xs text-gray-400">
+                    <td class="p-3 font-mono text-blue-600 font-bold break-all">${r.w_order}</td>
+                    <td class="p-3">
+                        <div class="font-bold text-gray-800">${r.lname} ${r.fname}</div>
+                    </td>
+                    <td class="p-3 text-xs">
+                        <div class="font-mono">${r.phone}</div>
+                        <div class="text-gray-400 break-all">${r.email}</div>
+                    </td>
+                    <td class="p-3 text-[11px] text-gray-500 leading-tight">
                         ${r.addr1}<br>${r.addr2}
                     </td>
-                    <td class="p-3 text-right">
-                        <button onclick="deleteRecord(${r.id})" class="text-red-400 hover:text-red-600">刪除</button>
+                    <td class="p-3 text-xs">
+                        <div class="font-bold text-gray-700">💰 ${r.card}</div>
+                        <div class="text-green-600 font-bold">$${Number(r.amount).toLocaleString()}</div>
                     </td>
-                </tr>
-            `).join('');
+                    <td class="p-3 text-[10px] text-gray-400">${r.date}</td>
+                    <td class="p-3 text-right space-x-2">
+                        <button onclick="startEdit(${r.id})" class="text-blue-400 hover:text-blue-600 transition">編輯</button>
+                        <button onclick="deleteRecord(${r.id})" class="text-red-300 hover:text-red-600 transition">刪除</button>
+                    </td>
+                </tr>`;
+            }).join('');
         }
 
-        function deleteRecord(id) {
-            records = records.filter(r => r.id !== id);
-            localStorage.setItem('aos_records', JSON.stringify(records));
+        // 編輯邏輯
+        function startEdit(id) {
+            editingId = id;
             renderRecords();
         }
 
+        function cancelEdit() {
+            editingId = null;
+            renderRecords();
+        }
+
+        function submitEdit(id) {
+            const recordIndex = records.findIndex(r => r.id === id);
+            if (recordIndex > -1) {
+                records[recordIndex].w_order = document.getElementById(`edit_w_${id}`).value;
+                records[recordIndex].lname = document.getElementById(`edit_lname_${id}`).value;
+                records[recordIndex].fname = document.getElementById(`edit_fname_${id}`).value;
+                records[recordIndex].phone = document.getElementById(`edit_phone_${id}`).value;
+                records[recordIndex].email = document.getElementById(`edit_email_${id}`).value;
+                records[recordIndex].addr1 = document.getElementById(`edit_addr1_${id}`).value;
+                records[recordIndex].addr2 = document.getElementById(`edit_addr2_${id}`).value;
+                records[recordIndex].card = document.getElementById(`edit_card_${id}`).value;
+                records[recordIndex].amount = document.getElementById(`edit_amount_${id}`).value;
+                
+                localStorage.setItem('aos_records_v3', JSON.stringify(records));
+                editingId = null;
+                renderRecords();
+                showToast("更新成功");
+            }
+        }
+
+        function deleteRecord(id) {
+            if(confirm("確定刪除此紀錄？")) {
+                records = records.filter(r => r.id !== id);
+                localStorage.setItem('aos_records_v3', JSON.stringify(records));
+                renderRecords();
+            }
+        }
+
         function clearAll() {
-            if(confirm("確定要刪除所有紀錄嗎？")) {
+            if(confirm("確定要清空所有紀錄嗎？此動作無法復原。")) {
                 records = [];
-                localStorage.setItem('aos_records', JSON.stringify(records));
+                localStorage.setItem('aos_records_v3', JSON.stringify(records));
                 renderRecords();
             }
         }
 
         function exportCSV() {
             if (records.length === 0) return showToast("沒有紀錄可匯出");
-            let csv = "\uFEFFW單號,姓名,電話,Email,地址1,地址2,日期\n";
+            let csv = "\uFEFFW單號,姓,名,電話,Email,地址1,地址2,付款資訊,金額,記錄日期\n";
             records.forEach(r => {
-                csv += `"${r.w_order}","${r.name}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.date}"\n`;
+                csv += `"${r.w_order}","${r.lname}","${r.fname}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.card}","${r.amount}","${r.date}"\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = `aos_orders_${new Date().getTime()}.csv`;
+            link.download = `aos_report_${new Date().getTime()}.csv`;
             link.click();
         }
 
