@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS 一鍵資料生成器 (加強亂打版)</title>
+    <title>AOS 一鍵資料生成器 (單獨複製版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -23,11 +23,21 @@
             <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">🍎 AOS 資料生成</h1>
             
             <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">姓名 (亂打組合)</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
-                        <button onclick="copyToClipboard('name')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                <!-- 姓與名分拆 -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase">姓 (Last Name)</label>
+                        <div class="flex gap-1">
+                            <input type="text" id="last_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                            <button onclick="copyToClipboard('last_name')" class="copy-btn bg-gray-800 text-white px-2 rounded-lg text-[10px]">複製</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 uppercase">名 (First Name)</label>
+                        <div class="flex gap-1">
+                            <input type="text" id="first_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                            <button onclick="copyToClipboard('first_name')" class="copy-btn bg-gray-800 text-white px-2 rounded-lg text-[10px]">複製</button>
+                        </div>
                     </div>
                 </div>
 
@@ -47,14 +57,19 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase">電話 (非 5/6/9)</label>
-                        <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">電話 (非 5/6/9)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono">
+                        <button onclick="copyToClipboard('phone')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 uppercase">Email</label>
-                        <input type="text" id="email" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">Email</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="email" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono">
+                        <button onclick="copyToClipboard('email')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
                     </div>
                 </div>
 
@@ -106,12 +121,11 @@
 
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50 shadow-lg">
         已複製
     </div>
 
     <script>
-        // 大幅擴充資料庫
         const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Nancy", "Daniel", "Lisa", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Steven", "Ashley", "Paul", "Kimberly", "Andrew", "Emily", "Joshua", "Donna", "Kenneth", "Michelle"];
         const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
         const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
@@ -139,65 +153,58 @@
         }
 
         function generateAll() {
-            // 姓名多樣化
-            const nameType = randomInt(0, 3);
-            let finalName = "", emailBase = "";
+            const nameType = randomInt(0, 2);
+            let finalLName = "", finalFName = "", emailBase = "";
 
-            if (nameType === 0) { // 中文名
-                finalName = chineseSurnames[randomInt(0, chineseSurnames.length-1)] + chineseNames[randomInt(0, chineseNames.length-1)];
+            if (nameType === 0) { // 中文
+                finalLName = chineseSurnames[randomInt(0, chineseSurnames.length-1)];
+                finalFName = chineseNames[randomInt(0, chineseNames.length-1)];
                 emailBase = "user" + randomInt(1000, 99999);
-            } else if (nameType === 1) { // 英文全名
-                const fn = firstNames[randomInt(0, firstNames.length-1)];
-                const ln = lastNames[randomInt(0, lastNames.length-1)];
-                finalName = fn + " " + ln;
-                emailBase = (fn.toLowerCase() + ln.toLowerCase() + randomInt(10, 999));
-            } else { // 英文名+中文姓
-                const fn = firstNames[randomInt(0, firstNames.length-1)];
-                const ln = lastNames[randomInt(0, lastNames.length-1)];
-                finalName = fn + " " + ln + " " + randomStr(1); // 加個隨機字母更亂
-                emailBase = (fn.toLowerCase() + randomStr(2).toLowerCase() + randomInt(100, 999));
+            } else { // 英文
+                finalFName = firstNames[randomInt(0, firstNames.length-1)];
+                finalLName = lastNames[randomInt(0, lastNames.length-1)];
+                emailBase = (finalFName.toLowerCase() + finalLName.toLowerCase() + randomInt(10, 999));
             }
-            document.getElementById('name').value = finalName;
+            
+            document.getElementById('last_name').value = finalLName;
+            document.getElementById('first_name').value = finalFName;
 
-            // 地址 Line 1
             const isAddrEn = Math.random() > 0.5;
             const floor = randomInt(1, 60), streetNo = randomInt(1, 999);
-            const randomUnit = randomStr(1) + randomInt(1, 20); // 如 A12, C5
+            const randomUnit = randomStr(1) + randomInt(1, 20);
 
             if (isAddrEn) {
                 const bldg = buildingsEN[randomInt(0, buildingsEN.length-1)];
                 document.getElementById('addr1').value = `Unit ${randomUnit}, ${floor}/F, ${bldg} ${randomStr(1)}`;
-                
                 const street = streetsEN[randomInt(0, streetsEN.length-1)];
                 const dist = districtsEN[randomInt(0, districtsEN.length-1)];
                 document.getElementById('addr2').value = `No. ${streetNo} ${street}, ${dist}`;
             } else {
                 const bldg = buildingsCH[randomInt(0, buildingsCH.length-1)];
                 document.getElementById('addr1').value = `${bldg} ${randomStr(1)}座 ${floor}樓 ${randomUnit}室`;
-                
                 const street = streetsCH[randomInt(0, streetsCH.length-1)];
                 const dist = districtsCH[randomInt(0, districtsCH.length-1)];
                 document.getElementById('addr2').value = `${street}${streetNo}號 ${dist}`;
             }
 
-            // 電話 (避開 5/6/9)
-            // 隨機選 2, 3, 4, 7, 8 開頭
             const safePrefixes = [2, 3, 4, 7, 8];
             let phone = safePrefixes[randomInt(0, safePrefixes.length-1)].toString();
             for(let i=0; i<7; i++) phone += randomInt(0, 9);
             document.getElementById('phone').value = phone;
 
-            // Email
             document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
             document.getElementById('w_order').value = "";
         }
 
         function saveRecord() {
-            if (!document.getElementById('name').value) return showToast("請先生成資料");
+            const lname = document.getElementById('last_name').value;
+            const fname = document.getElementById('first_name').value;
+            if (!lname || !fname) return showToast("請先生成資料");
+
             const newRecord = {
                 id: Date.now(),
                 w_order: document.getElementById('w_order').value || '未填寫',
-                name: document.getElementById('name').value,
+                name: lname + fname,
                 addr1: document.getElementById('addr1').value,
                 addr2: document.getElementById('addr2').value,
                 phone: document.getElementById('phone').value,
@@ -217,7 +224,7 @@
                 <tr class="border-b hover:bg-gray-50 transition">
                     <td class="p-3 font-mono text-blue-600 font-bold">${r.w_order}</td>
                     <td class="p-3">${r.name}</td>
-                    <td class="p-3">${r.phone}</td>
+                    <td class="p-3 font-mono">${r.phone}</td>
                     <td class="p-3 text-xs text-gray-400">
                         ${r.addr1}<br>${r.addr2}
                     </td>
