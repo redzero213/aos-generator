@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS 一鍵資料生成器 (具備編輯功能版)</title>
+    <title>AOS 一鍵資料生成器 (專業增強版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -14,13 +14,14 @@
         .scroll-custom::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
         input:focus { border-color: #3b82f6; outline: none; ring: 2px; ring-color: #bfdbfe; }
         .edit-input { @apply w-full bg-white border border-blue-300 rounded px-1 py-0.5 text-xs focus:bg-blue-50; }
+        .tool-link { @apply flex items-center justify-center gap-2 p-3 bg-white border rounded-xl hover:shadow-md transition text-sm font-medium text-gray-700; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8">
 
-    <div class="max-w-[1600px] mx-auto grid grid-cols-1 xl:grid-cols-4 gap-8">
+    <div class="max-w-[1600px] mx-auto grid grid-cols-1 xl:grid-cols-4 gap-8 mb-8">
         
-        <!-- 左側：生成器主體 -->
+        <!-- 左側：生成器主體 (已按官網順序調整) -->
         <div class="xl:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-8">
             <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">🍎 AOS 資料生成</h1>
             
@@ -43,22 +44,7 @@
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="addr1" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
-                        <button onclick="copyToClipboard('addr1')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="addr2" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
-                        <button onclick="copyToClipboard('addr2')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
-                    </div>
-                </div>
-
+                <!-- 1. 調整順序：電話 -> Email -> 地址 -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 uppercase">電話</label>
                     <div class="flex gap-2">
@@ -75,14 +61,37 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 1</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="addr1" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                        <button onclick="copyToClipboard('addr1')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase">地址 Line 2</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="addr2" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                        <button onclick="copyToClipboard('addr2')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
+                    </div>
+                </div>
+
                 <hr class="my-4 border-dashed">
 
                 <!-- 記錄資訊 -->
                 <div class="space-y-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
                     <h3 class="text-sm font-bold text-blue-700 mb-2">📋 交易備註 (手動輸入)</h3>
-                    <div>
-                        <label class="block text-[10px] font-bold text-blue-400 uppercase">W 單號</label>
-                        <input type="text" id="w_order" placeholder="W123456789" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">W 單號</label>
+                            <input type="text" id="w_order" placeholder="W123456789" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                        </div>
+                        <div>
+                            <!-- 3. 新增運單號欄位 -->
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">運單號 (SF/貓/DHL)</label>
+                            <input type="text" id="tracking_no" placeholder="SF12345678" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
@@ -112,19 +121,22 @@
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800">📋 詳細落單紀錄</h2>
-                    <p class="text-xs text-gray-400">點擊「編輯」可直接修改資料內容 (已啟動自動儲存)</p>
+                    <p class="text-xs text-gray-400">點擊 W 單號可追蹤官網狀態 | 支援匯入匯出 CSV</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">匯出 Excel (CSV)</button>
+                    <!-- 5. 匯入功能 -->
+                    <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="importCSV(this)">
+                    <button onclick="document.getElementById('csvFileInput').click()" class="text-sm bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 transition">匯入 CSV</button>
+                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">匯出 CSV</button>
                     <button onclick="clearAll()" class="text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200 transition">清空全部</button>
                 </div>
             </div>
 
             <div class="overflow-x-auto scroll-custom flex-grow border rounded-xl">
-                <table class="w-full text-left border-collapse min-w-[1100px]">
+                <table class="w-full text-left border-collapse min-w-[1200px]">
                     <thead class="sticky top-0 bg-gray-50 shadow-sm z-10">
                         <tr class="text-[11px] font-bold text-gray-500 border-b uppercase">
-                            <th class="p-3 bg-gray-50 w-32">W 單號</th>
+                            <th class="p-3 bg-gray-50 w-32">W 單號 / 運單</th>
                             <th class="p-3 bg-gray-50 w-40">姓名</th>
                             <th class="p-3 bg-gray-50 w-48">電話 / Email</th>
                             <th class="p-3 bg-gray-50">地址詳情</th>
@@ -142,12 +154,31 @@
 
     </div>
 
+    <!-- 4. 底部快捷工具欄 -->
+    <div class="max-w-[1600px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-4">
+        <a href="https://www.sf-express.com/hk/tc/dynamic_function/waybill/" target="_blank" class="tool-link">
+            📦 香港順豐查詢
+        </a>
+        <a href="https://www.yamatohk.com.hk/" target="_blank" class="tool-link">
+            🐈 香港黑貓 (雅瑪多)
+        </a>
+        <a href="https://www.dhl.com/hk-zh/home/tracking.html" target="_blank" class="tool-link">
+            ✈️ 香港 DHL 查詢
+        </a>
+        <a href="https://www.apple.com/hk-zh/shop/order/list" target="_blank" class="tool-link bg-blue-50 border-blue-200 text-blue-600">
+            🍎 Apple 訂單列表
+        </a>
+        <div class="tool-link bg-gray-800 text-white border-none cursor-default">
+            📞 Apple: 800-908-988
+        </div>
+    </div>
+
     <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50 shadow-lg">
         已複製
     </div>
 
     <script>
-        const STORAGE_KEY = 'aos_records_v3';
+        const STORAGE_KEY = 'aos_records_v4'; // 升級版本號
         const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Nancy", "Daniel", "Lisa", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Steven", "Ashley", "Paul", "Kimberly", "Andrew", "Emily", "Joshua", "Donna", "Kenneth", "Michelle"];
         const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
         const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
@@ -163,7 +194,6 @@
         let records = [];
         let editingId = null;
 
-        // 初始化加載
         function initStorage() {
             const saved = localStorage.getItem(STORAGE_KEY);
             records = saved ? JSON.parse(saved) : [];
@@ -182,11 +212,11 @@
             const nameType = randomInt(0, 1);
             let finalLName = "", finalFName = "", emailBase = "";
 
-            if (nameType === 0) { // 中文
+            if (nameType === 0) {
                 finalLName = chineseSurnames[randomInt(0, chineseSurnames.length-1)];
                 finalFName = chineseNames[randomInt(0, chineseNames.length-1)];
                 emailBase = "user" + randomInt(1000, 99999);
-            } else { // 英文
+            } else {
                 finalFName = firstNames[randomInt(0, firstNames.length-1)];
                 finalLName = lastNames[randomInt(0, lastNames.length-1)];
                 emailBase = (finalFName.toLowerCase() + finalLName.toLowerCase() + randomInt(10, 999));
@@ -221,6 +251,7 @@
             document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
             
             document.getElementById('w_order').value = "";
+            document.getElementById('tracking_no').value = "";
             document.getElementById('card_info').value = "";
             document.getElementById('amount').value = "";
         }
@@ -232,7 +263,8 @@
 
             const newRecord = {
                 id: Date.now(),
-                w_order: document.getElementById('w_order').value || 'N/A',
+                w_order: document.getElementById('w_order').value || '待補單',
+                tracking_no: document.getElementById('tracking_no').value || '---',
                 card: document.getElementById('card_info').value || '----',
                 amount: document.getElementById('amount').value || '0',
                 lname: lname,
@@ -247,7 +279,7 @@
             records.unshift(newRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
             renderRecords();
-            showToast("全資料已儲存到瀏覽器");
+            showToast("全資料已儲存");
         }
 
         function renderRecords() {
@@ -260,7 +292,10 @@
                 if (editingId === r.id) {
                     return `
                     <tr class="border-b bg-blue-50 transition">
-                        <td class="p-2"><input type="text" id="edit_w_${r.id}" value="${r.w_order}" class="edit-input font-bold text-blue-600"></td>
+                        <td class="p-2">
+                            <input type="text" id="edit_w_${r.id}" value="${r.w_order}" class="edit-input font-bold text-blue-600 mb-1" placeholder="W單號">
+                            <input type="text" id="edit_tracking_${r.id}" value="${r.tracking_no}" class="edit-input" placeholder="運單號">
+                        </td>
                         <td class="p-2">
                             <input type="text" id="edit_lname_${r.id}" value="${r.lname}" class="edit-input mb-1" placeholder="姓">
                             <input type="text" id="edit_fname_${r.id}" value="${r.fname}" class="edit-input" placeholder="名">
@@ -284,9 +319,20 @@
                         </td>
                     </tr>`;
                 }
+
+                // 2. W 單號超連結
+                const wLink = r.w_order.startsWith('W') 
+                    ? `https://www.apple.com/hk-zh/shop/order/list?orderNumber=${r.w_order}` 
+                    : `https://www.apple.com/hk-zh/shop/order/list`;
+
                 return `
                 <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="p-3 font-mono text-blue-600 font-bold break-all">${r.w_order}</td>
+                    <td class="p-3 break-all">
+                        <a href="${wLink}" target="_blank" class="font-mono text-blue-600 font-bold hover:underline">
+                            🔗 ${r.w_order}
+                        </a>
+                        <div class="text-[10px] text-gray-400 mt-1 font-mono">${r.tracking_no}</div>
+                    </td>
                     <td class="p-3">
                         <div class="font-bold text-gray-800">${r.lname} ${r.fname}</div>
                     </td>
@@ -317,6 +363,7 @@
             const recordIndex = records.findIndex(r => r.id === id);
             if (recordIndex > -1) {
                 records[recordIndex].w_order = document.getElementById(`edit_w_${id}`).value;
+                records[recordIndex].tracking_no = document.getElementById(`edit_tracking_${id}`).value;
                 records[recordIndex].lname = document.getElementById(`edit_lname_${id}`).value;
                 records[recordIndex].fname = document.getElementById(`edit_fname_${id}`).value;
                 records[recordIndex].phone = document.getElementById(`edit_phone_${id}`).value;
@@ -351,15 +398,58 @@
 
         function exportCSV() {
             if (records.length === 0) return showToast("沒有紀錄可匯出");
-            let csv = "\uFEFFW單號,姓,名,電話,Email,地址1,地址2,付款資訊,金額,記錄日期\n";
+            let csv = "\uFEFFW單號,運單號,姓,名,電話,Email,地址1,地址2,付款資訊,金額,記錄日期\n";
             records.forEach(r => {
-                csv += `"${r.w_order}","${r.lname}","${r.fname}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.card}","${r.amount}","${r.date}"\n`;
+                csv += `"${r.w_order}","${r.tracking_no}","${r.lname}","${r.fname}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.card}","${r.amount}","${r.date}"\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = `aos_report_${new Date().getTime()}.csv`;
             link.click();
+        }
+
+        // 5. 匯入 CSV 邏輯
+        function importCSV(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const rows = text.split('\n').slice(1); // 跳過表頭
+                const imported = [];
+                rows.forEach(row => {
+                    if (!row.trim()) return;
+                    // 簡單處理帶引號的 CSV 欄位
+                    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)?.map(c => c.replace(/"/g, '')) || [];
+                    if (cols.length >= 10) {
+                        imported.push({
+                            id: Date.now() + Math.random(),
+                            w_order: cols[0],
+                            tracking_no: cols[1],
+                            lname: cols[2],
+                            fname: cols[3],
+                            phone: cols[4],
+                            email: cols[5],
+                            addr1: cols[6],
+                            addr2: cols[7],
+                            card: cols[8],
+                            amount: cols[9],
+                            date: cols[10] || new Date().toLocaleString()
+                        });
+                    }
+                });
+                if (imported.length > 0) {
+                    records = [...imported, ...records];
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+                    renderRecords();
+                    showToast(`成功匯入 ${imported.length} 條紀錄`);
+                } else {
+                    showToast("檔案格式不正確或無資料");
+                }
+                input.value = ""; // 重置 input
+            };
+            reader.readAsText(file);
         }
 
         function copyToClipboard(id) {
@@ -376,7 +466,6 @@
             setTimeout(() => toast.style.opacity = '0', 1500);
         }
 
-        // 確保視窗載入後讀取資料
         window.addEventListener('load', () => {
             initStorage();
             generateAll();
