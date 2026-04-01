@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AOS 一鍵資料生成器 (專業增強版)</title>
+    <title>AOS 專業資料管理系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -14,41 +14,39 @@
         .scroll-custom::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
         input:focus { border-color: #3b82f6; outline: none; ring: 2px; ring-color: #bfdbfe; }
         .edit-input { @apply w-full bg-white border border-blue-300 rounded px-1 py-0.5 text-xs focus:bg-blue-50; }
-        .tool-link { @apply flex items-center justify-center gap-2 p-3 bg-white border rounded-xl hover:shadow-md transition text-sm font-medium text-gray-700; }
+        .tool-link { @apply flex flex-col items-center justify-center gap-1 p-3 bg-white border rounded-xl hover:shadow-md transition text-sm font-medium text-gray-700; }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8">
 
     <div class="max-w-[1600px] mx-auto grid grid-cols-1 xl:grid-cols-4 gap-8 mb-8">
         
-        <!-- 左側：生成器主體 (已按官網順序調整) -->
-        <div class="xl:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-8">
+        <!-- 左側：生成器主體 -->
+        <div class="xl:col-span-1 bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-8 border border-gray-200">
             <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">🍎 AOS 資料生成</h1>
             
             <div class="space-y-4">
-                <!-- 姓與名 -->
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase">姓 (Last Name)</label>
                         <div class="flex gap-1">
-                            <input type="text" id="last_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                            <input type="text" id="last_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-bold">
                             <button onclick="copyToClipboard('last_name')" class="copy-btn bg-gray-800 text-white px-2 rounded-lg text-[10px]">複製</button>
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase">名 (First Name)</label>
                         <div class="flex gap-1">
-                            <input type="text" id="first_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm">
+                            <input type="text" id="first_name" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-bold">
                             <button onclick="copyToClipboard('first_name')" class="copy-btn bg-gray-800 text-white px-2 rounded-lg text-[10px]">複製</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 1. 調整順序：電話 -> Email -> 地址 -->
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 uppercase">電話</label>
                     <div class="flex gap-2">
-                        <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono">
+                        <input type="text" id="phone" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono font-bold text-blue-600">
                         <button onclick="copyToClipboard('phone')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
                     </div>
                 </div>
@@ -56,7 +54,7 @@
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 uppercase">Email</label>
                     <div class="flex gap-2">
-                        <input type="text" id="email" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono">
+                        <input type="text" id="email" readonly class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm font-mono text-gray-600">
                         <button onclick="copyToClipboard('email')" class="copy-btn bg-gray-800 text-white px-3 rounded-lg text-xs">複製</button>
                     </div>
                 </div>
@@ -77,30 +75,28 @@
                     </div>
                 </div>
 
-                <hr class="my-4 border-dashed">
+                <hr class="my-4 border-dashed border-gray-300">
 
-                <!-- 記錄資訊 -->
                 <div class="space-y-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <h3 class="text-sm font-bold text-blue-700 mb-2">📋 交易備註 (手動輸入)</h3>
+                    <h3 class="text-sm font-bold text-blue-700 mb-1">📋 交易備註</h3>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-[10px] font-bold text-blue-400 uppercase">W 單號</label>
-                            <input type="text" id="w_order" placeholder="W123456789" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                            <input type="text" id="w_order" placeholder="W123..." class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none focus:bg-white">
                         </div>
                         <div>
-                            <!-- 3. 新增運單號欄位 -->
-                            <label class="block text-[10px] font-bold text-blue-400 uppercase">運單號 (SF/貓/DHL)</label>
-                            <input type="text" id="tracking_no" placeholder="SF12345678" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">運單號</label>
+                            <input type="text" id="tracking_no" placeholder="SF123..." class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none focus:bg-white">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold text-blue-400 uppercase">付款資訊/自定義</label>
-                            <input type="text" id="card_info" placeholder="如 1234 或 備註" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                            <label class="block text-[10px] font-bold text-blue-400 uppercase">付款/備註</label>
+                            <input type="text" id="card_info" placeholder="卡號末4位" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none focus:bg-white">
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-blue-400 uppercase">金額 (HKD)</label>
-                            <input type="number" id="amount" placeholder="15999" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none">
+                            <input type="number" id="amount" placeholder="15999" class="w-full border border-blue-200 rounded-lg p-2 text-sm outline-none focus:bg-white">
                         </div>
                     </div>
                 </div>
@@ -117,18 +113,17 @@
         </div>
 
         <!-- 右側：歷史紀錄 -->
-        <div class="xl:col-span-3 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[850px]">
+        <div class="xl:col-span-3 bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[850px] border border-gray-200">
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800">📋 詳細落單紀錄</h2>
-                    <p class="text-xs text-gray-400">點擊 W 單號可追蹤官網狀態 | 支援匯入匯出 CSV</p>
+                    <p class="text-xs text-gray-400">所有歷史資料均保存在本地瀏覽器中</p>
                 </div>
                 <div class="flex gap-2">
-                    <!-- 5. 匯入功能 -->
                     <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="importCSV(this)">
-                    <button onclick="document.getElementById('csvFileInput').click()" class="text-sm bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 transition">匯入 CSV</button>
-                    <button onclick="exportCSV()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">匯出 CSV</button>
-                    <button onclick="clearAll()" class="text-sm bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200 transition">清空全部</button>
+                    <button onclick="document.getElementById('csvFileInput').click()" class="text-xs bg-gray-100 text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-200 transition border border-gray-200">匯入 CSV</button>
+                    <button onclick="exportCSV()" class="text-xs bg-green-50 text-green-700 border border-green-200 px-3 py-2 rounded-lg hover:bg-green-100 transition">匯出 CSV</button>
+                    <button onclick="clearAll()" class="text-xs bg-red-50 text-red-600 px-3 py-2 rounded-lg hover:bg-red-100 transition border border-red-100">清空</button>
                 </div>
             </div>
 
@@ -136,119 +131,84 @@
                 <table class="w-full text-left border-collapse min-w-[1200px]">
                     <thead class="sticky top-0 bg-gray-50 shadow-sm z-10">
                         <tr class="text-[11px] font-bold text-gray-500 border-b uppercase">
-                            <th class="p-3 bg-gray-50 w-32">W 單號 / 運單</th>
-                            <th class="p-3 bg-gray-50 w-40">姓名</th>
-                            <th class="p-3 bg-gray-50 w-48">電話 / Email</th>
-                            <th class="p-3 bg-gray-50">地址詳情</th>
-                            <th class="p-3 bg-gray-50 w-32">付款/金額</th>
-                            <th class="p-3 bg-gray-50 w-32">日期</th>
-                            <th class="p-3 bg-gray-50 text-right w-32">操作</th>
+                            <th class="p-3 w-40">訂單與運單</th>
+                            <th class="p-3 w-32">姓名 (姓 / 名)</th>
+                            <th class="p-3 w-48">聯絡資訊</th>
+                            <th class="p-3">送貨地址</th>
+                            <th class="p-3 w-28">付款與金額</th>
+                            <th class="p-3 text-right w-24">操作</th>
                         </tr>
                     </thead>
                     <tbody id="recordList" class="text-sm text-gray-600">
-                        <!-- 紀錄加載點 -->
+                        <!-- 資料將由 JS 生成 -->
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 
-    <!-- 4. 底部快捷工具欄 -->
-    <div class="max-w-[1600px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-4">
-        <a href="https://www.sf-express.com/hk/tc/dynamic_function/waybill/" target="_blank" class="tool-link">
-            📦 香港順豐查詢
-        </a>
-        <a href="https://www.yamatohk.com.hk/" target="_blank" class="tool-link">
-            🐈 香港黑貓 (雅瑪多)
-        </a>
-        <a href="https://www.dhl.com/hk-zh/home/tracking.html" target="_blank" class="tool-link">
-            ✈️ 香港 DHL 查詢
-        </a>
-        <a href="https://www.apple.com/hk-zh/shop/order/list" target="_blank" class="tool-link bg-blue-50 border-blue-200 text-blue-600">
-            🍎 Apple 訂單列表
-        </a>
-        <div class="tool-link bg-gray-800 text-white border-none cursor-default">
-            📞 Apple: 800-908-988
+    <!-- 底部快捷工具欄 (按鈕形式) -->
+    <div class="max-w-[1600px] mx-auto">
+        <p class="text-xs text-gray-400 mb-2 px-1 font-bold uppercase tracking-wider">快捷工具 (點擊自動複製目前電話 + 提示熱線)：</p>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <button onclick="smartCopy('27300273', '順豐')" class="tool-link">
+                <span class="text-xs text-gray-400 uppercase">SF Express</span>
+                <span class="font-bold">📦 順豐熱線: 2730 0273</span>
+            </button>
+            <button onclick="smartCopy('27300273', '黑貓')" class="tool-link">
+                <span class="text-xs text-gray-400 uppercase">Yamato</span>
+                <span class="font-bold">🐈 黑貓熱線: 2730 0273</span>
+            </button>
+            <button onclick="smartCopy('24003388', 'DHL')" class="tool-link">
+                <span class="text-xs text-gray-400 uppercase">DHL</span>
+                <span class="font-bold">✈️ DHL 熱線: 2400 3388</span>
+            </button>
+            <button onclick="smartCopy('800908988', 'Apple支援')" class="tool-link bg-blue-50 border-blue-200">
+                <span class="text-xs text-blue-400 uppercase">Apple Support</span>
+                <span class="font-bold text-blue-600">🍎 Apple 熱線: 800-908-988</span>
+            </button>
+            <a href="https://www.apple.com/hk-zh/shop/order/list" target="_blank" class="tool-link bg-gray-800 text-white border-none">
+                <span class="text-xs text-gray-400 uppercase">Official</span>
+                <span class="font-bold text-white">🌐 Apple 官網追蹤</span>
+            </a>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none z-50 shadow-lg">
-        已複製
-    </div>
+    <!-- 提示框 -->
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-2 rounded-full opacity-0 transition-all duration-300 pointer-events-none z-50 shadow-2xl text-sm border border-gray-700">已複製</div>
 
     <script>
-        const STORAGE_KEY = 'aos_records_v4'; // 升級版本號
-        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Nancy", "Daniel", "Lisa", "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Steven", "Ashley", "Paul", "Kimberly", "Andrew", "Emily", "Joshua", "Donna", "Kenneth", "Michelle"];
-        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow", "Ma", "Li", "Poon", "Tang", "Yeung", "Kan"];
-        const chineseSurnames = ["陳", "李", "張", "黃", "何", "劉", "林", "梁", "吳", "郭", "許", "曾", "朱", "周", "馬", "黎", "潘", "鄧", "楊", "簡"];
-        const chineseNames = ["大文", "小明", "家強", "志偉", "美儀", "雅詩", "嘉欣", "俊傑", "建華", "浩然", "淑賢", "惠珍", "婉婷", "國強", "德華", "朝偉", "青霞", "曼玉", "嘉玲", "子丹"];
-        const buildingsCH = ["嘉里大廈", "信和中心", "康怡花園", "新城市廣場", "海港城", "德福花園", "太古城", "南豐中心", "美孚新邨", "沙田第一城", "天盛苑", "尚悅", "環宇海灣", "名城", "峻瀅"];
-        const buildingsEN = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre", "Mei Foo Sun Chuen", "City One", "Grand Yoho", "The Reach"];
-        const streetsCH = ["彌敦道", "軒尼詩道", "廣東道", "德輔道", "亞皆老街", "皇后大道中", "長沙灣道", "青山公路", "大埔道", "窩打老道"];
-        const streetsEN = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central", "Cheung Sha Wan Road", "Castle Peak Road"];
-        const districtsCH = ["旺角", "尖沙咀", "銅鑼灣", "中環", "觀塘", "沙田", "荃灣", "元朗", "大埔", "屯門"];
-        const districtsEN = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long", "Tai Po", "Tuen Mun"];
-        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com", "hotmail.com"];
-
+        const STORAGE_KEY = 'aos_records_v4';
         let records = [];
-        let editingId = null;
+
+        // 隨機資料庫 (保留專業版的多樣性)
+        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph"];
+        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow"];
+        const bldgs = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre"];
+        const streets = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central"];
+        const districts = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long"];
+        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com"];
 
         function initStorage() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            records = saved ? JSON.parse(saved) : [];
+            const data = localStorage.getItem(STORAGE_KEY);
+            records = data ? JSON.parse(data) : [];
             renderRecords();
         }
 
-        function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
-        function randomStr(len) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let res = '';
-            for(let i=0; i<len; i++) res += chars.charAt(randomInt(0, chars.length-1));
-            return res;
-        }
-
         function generateAll() {
-            const nameType = randomInt(0, 1);
-            let finalLName = "", finalFName = "", emailBase = "";
-
-            if (nameType === 0) {
-                finalLName = chineseSurnames[randomInt(0, chineseSurnames.length-1)];
-                finalFName = chineseNames[randomInt(0, chineseNames.length-1)];
-                emailBase = "user" + randomInt(1000, 99999);
-            } else {
-                finalFName = firstNames[randomInt(0, firstNames.length-1)];
-                finalLName = lastNames[randomInt(0, lastNames.length-1)];
-                emailBase = (finalFName.toLowerCase() + finalLName.toLowerCase() + randomInt(10, 999));
-            }
+            document.getElementById('last_name').value = lastNames[Math.floor(Math.random() * lastNames.length)];
+            document.getElementById('first_name').value = firstNames[Math.floor(Math.random() * firstNames.length)];
             
-            document.getElementById('last_name').value = finalLName;
-            document.getElementById('first_name').value = finalFName;
-
-            const isAddrEn = Math.random() > 0.5;
-            const floor = randomInt(1, 60), streetNo = randomInt(1, 999);
-            const randomUnit = randomStr(1) + randomInt(1, 20);
-
-            if (isAddrEn) {
-                const bldg = buildingsEN[randomInt(0, buildingsEN.length-1)];
-                document.getElementById('addr1').value = `Unit ${randomUnit}, ${floor}/F, ${bldg} ${randomStr(1)}`;
-                const street = streetsEN[randomInt(0, streetsEN.length-1)];
-                const dist = districtsEN[randomInt(0, districtsEN.length-1)];
-                document.getElementById('addr2').value = `No. ${streetNo} ${street}, ${dist}`;
-            } else {
-                const bldg = buildingsCH[randomInt(0, buildingsCH.length-1)];
-                document.getElementById('addr1').value = `${bldg} ${randomStr(1)}座 ${floor}樓 ${randomUnit}室`;
-                const street = streetsCH[randomInt(0, streetsCH.length-1)];
-                const dist = districtsCH[randomInt(0, districtsCH.length-1)];
-                document.getElementById('addr2').value = `${street}${streetNo}號 ${dist}`;
-            }
-
-            const safePrefixes = [2, 3, 4, 7, 8];
-            let phone = safePrefixes[randomInt(0, safePrefixes.length-1)].toString();
-            for(let i=0; i<7; i++) phone += randomInt(0, 9);
+            const prefix = [2, 3, 5, 6, 9][Math.floor(Math.random() * 5)];
+            let phone = prefix.toString();
+            for(let i=0; i<7; i++) phone += Math.floor(Math.random() * 10);
             document.getElementById('phone').value = phone;
-
-            document.getElementById('email').value = `${emailBase}@${domains[randomInt(0, domains.length-1)]}`;
+            
+            const emailBase = document.getElementById('first_name').value.toLowerCase() + Math.floor(Math.random()*999);
+            document.getElementById('email').value = `${emailBase}@${domains[Math.floor(Math.random() * domains.length)]}`;
+            
+            document.getElementById('addr1').value = `Unit ${Math.floor(Math.random()*20+1)}A, ${Math.floor(Math.random()*50+1)}/F, ${bldgs[Math.floor(Math.random()*bldgs.length)]}`;
+            document.getElementById('addr2').value = `No. ${Math.floor(Math.random()*99+1)} ${streets[Math.floor(Math.random()*streets.length)]}, ${districts[Math.floor(Math.random()*districts.length)]}`;
             
             document.getElementById('w_order').value = "";
             document.getElementById('tracking_no').value = "";
@@ -258,126 +218,93 @@
 
         function saveRecord() {
             const lname = document.getElementById('last_name').value;
-            const fname = document.getElementById('first_name').value;
-            if (!lname || !fname) return showToast("請先生成資料");
+            if (!lname) return showToast("請先生成資料");
 
             const newRecord = {
                 id: Date.now(),
-                w_order: document.getElementById('w_order').value || '待補單',
+                w_order: document.getElementById('w_order').value || '---',
                 tracking_no: document.getElementById('tracking_no').value || '---',
                 card: document.getElementById('card_info').value || '----',
                 amount: document.getElementById('amount').value || '0',
                 lname: lname,
-                fname: fname,
+                fname: document.getElementById('first_name').value,
                 addr1: document.getElementById('addr1').value,
                 addr2: document.getElementById('addr2').value,
                 phone: document.getElementById('phone').value,
                 email: document.getElementById('email').value,
-                date: new Date().toLocaleString()
+                date: new Date().toLocaleString('zh-HK', {hour12:false})
             };
 
             records.unshift(newRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
             renderRecords();
-            showToast("全資料已儲存");
+            showToast("紀錄已儲存");
         }
 
         function renderRecords() {
             const list = document.getElementById('recordList');
             if (records.length === 0) {
-                list.innerHTML = `<tr><td colspan="7" class="p-10 text-center text-gray-300">暫無紀錄</td></tr>`;
+                list.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-gray-300 italic">暫無歷史紀錄</td></tr>`;
                 return;
             }
-            list.innerHTML = records.map(r => {
-                if (editingId === r.id) {
-                    return `
-                    <tr class="border-b bg-blue-50 transition">
-                        <td class="p-2">
-                            <input type="text" id="edit_w_${r.id}" value="${r.w_order}" class="edit-input font-bold text-blue-600 mb-1" placeholder="W單號">
-                            <input type="text" id="edit_tracking_${r.id}" value="${r.tracking_no}" class="edit-input" placeholder="運單號">
-                        </td>
-                        <td class="p-2">
-                            <input type="text" id="edit_lname_${r.id}" value="${r.lname}" class="edit-input mb-1" placeholder="姓">
-                            <input type="text" id="edit_fname_${r.id}" value="${r.fname}" class="edit-input" placeholder="名">
-                        </td>
-                        <td class="p-2">
-                            <input type="text" id="edit_phone_${r.id}" value="${r.phone}" class="edit-input mb-1" placeholder="電話">
-                            <input type="text" id="edit_email_${r.id}" value="${r.email}" class="edit-input" placeholder="Email">
-                        </td>
-                        <td class="p-2">
-                            <input type="text" id="edit_addr1_${r.id}" value="${r.addr1}" class="edit-input mb-1 text-[10px]">
-                            <input type="text" id="edit_addr2_${r.id}" value="${r.addr2}" class="edit-input text-[10px]">
-                        </td>
-                        <td class="p-2">
-                            <input type="text" id="edit_card_${r.id}" value="${r.card}" class="edit-input mb-1" placeholder="付款資訊">
-                            <input type="number" id="edit_amount_${r.id}" value="${r.amount}" class="edit-input font-bold text-green-600">
-                        </td>
-                        <td class="p-2 text-[10px] text-gray-400">${r.date}</td>
-                        <td class="p-2 text-right">
-                            <button onclick="submitEdit(${r.id})" class="text-blue-600 font-bold hover:underline mr-2">儲存</button>
-                            <button onclick="cancelEdit()" class="text-gray-400 hover:underline">取消</button>
-                        </td>
-                    </tr>`;
-                }
-
-                // 2. W 單號超連結
-                const wLink = r.w_order.startsWith('W') 
-                    ? `https://www.apple.com/hk-zh/shop/order/list?orderNumber=${r.w_order}` 
-                    : `https://www.apple.com/hk-zh/shop/order/list`;
-
-                return `
-                <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="p-3 break-all">
-                        <a href="${wLink}" target="_blank" class="font-mono text-blue-600 font-bold hover:underline">
-                            🔗 ${r.w_order}
-                        </a>
-                        <div class="text-[10px] text-gray-400 mt-1 font-mono">${r.tracking_no}</div>
+            list.innerHTML = records.map(r => `
+                <tr class="border-b hover:bg-gray-50 transition align-top">
+                    <td class="p-3">
+                        <div class="mb-1">
+                            <span class="text-[10px] bg-blue-100 text-blue-600 px-1 rounded font-bold">W</span>
+                            <span class="font-mono text-blue-600 font-bold ml-1">${r.w_order}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] bg-gray-100 text-gray-500 px-1 rounded font-bold">運單</span>
+                            <span class="font-mono text-gray-800 ml-1 text-xs">${r.tracking_no}</span>
+                        </div>
                     </td>
                     <td class="p-3">
-                        <div class="font-bold text-gray-800">${r.lname} ${r.fname}</div>
+                        <div class="font-bold text-gray-800 text-base">${r.lname} ${r.fname}</div>
+                        <div class="text-[10px] text-gray-400 mt-1 uppercase">${r.lname} / ${r.fname}</div>
                     </td>
                     <td class="p-3 text-xs">
-                        <div class="font-mono">${r.phone}</div>
+                        <div class="font-mono font-bold text-gray-700">${r.phone}</div>
                         <div class="text-gray-400 break-all">${r.email}</div>
                     </td>
                     <td class="p-3 text-[11px] text-gray-500 leading-tight">
-                        ${r.addr1}<br>${r.addr2}
+                        <div class="bg-gray-50 p-2 rounded border border-gray-100">
+                            ${r.addr1}<br>${r.addr2}
+                        </div>
                     </td>
-                    <td class="p-3 text-xs">
-                        <div class="font-bold text-gray-700">💰 ${r.card}</div>
+                    <td class="p-3">
                         <div class="text-green-600 font-bold">$${Number(r.amount).toLocaleString()}</div>
+                        <div class="text-[9px] text-gray-400 mt-1">付款: ${r.card}</div>
+                        <div class="text-[9px] text-gray-300">${r.date}</div>
                     </td>
-                    <td class="p-3 text-[10px] text-gray-400">${r.date}</td>
-                    <td class="p-3 text-right space-x-2">
-                        <button onclick="startEdit(${r.id})" class="text-blue-400 hover:text-blue-600 transition">編輯</button>
-                        <button onclick="deleteRecord(${r.id})" class="text-red-300 hover:text-red-600 transition">刪除</button>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteRecord(${r.id})" class="text-red-300 hover:text-red-600 transition text-xs">刪除</button>
                     </td>
-                </tr>`;
-            }).join('');
+                </tr>
+            `).join('');
         }
 
-        function startEdit(id) { editingId = id; renderRecords(); }
-        function cancelEdit() { editingId = null; renderRecords(); }
+        // 核心邏輯：自動複製當前電話，然後彈出熱線號碼
+        function smartCopy(hotline, label) {
+            const currentPhone = document.getElementById('phone').value;
+            
+            // 複製到剪貼板
+            const temp = document.createElement('textarea');
+            temp.value = currentPhone;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            
+            // 顯示提示
+            showToast(`已複製收件人電話！${label}熱線：${hotline}`);
+        }
 
-        function submitEdit(id) {
-            const recordIndex = records.findIndex(r => r.id === id);
-            if (recordIndex > -1) {
-                records[recordIndex].w_order = document.getElementById(`edit_w_${id}`).value;
-                records[recordIndex].tracking_no = document.getElementById(`edit_tracking_${id}`).value;
-                records[recordIndex].lname = document.getElementById(`edit_lname_${id}`).value;
-                records[recordIndex].fname = document.getElementById(`edit_fname_${id}`).value;
-                records[recordIndex].phone = document.getElementById(`edit_phone_${id}`).value;
-                records[recordIndex].email = document.getElementById(`edit_email_${id}`).value;
-                records[recordIndex].addr1 = document.getElementById(`edit_addr1_${id}`).value;
-                records[recordIndex].addr2 = document.getElementById(`edit_addr2_${id}`).value;
-                records[recordIndex].card = document.getElementById(`edit_card_${id}`).value;
-                records[recordIndex].amount = document.getElementById(`edit_amount_${id}`).value;
-                
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-                editingId = null;
-                renderRecords();
-                showToast("更新成功");
-            }
+        function copyToClipboard(id) {
+            const input = document.getElementById(id);
+            input.select();
+            document.execCommand('copy');
+            showToast("已複製內容");
         }
 
         function deleteRecord(id) {
@@ -389,87 +316,41 @@
         }
 
         function clearAll() {
-            if(confirm("確定要清空所有紀錄嗎？此動作無法復原。")) {
+            if(confirm("警告：這將永久刪除所有本地紀錄，確定嗎？")) {
                 records = [];
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
                 renderRecords();
             }
         }
 
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.opacity = '1';
+            toast.style.bottom = '40px';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.bottom = '10px';
+            }, 3000);
+        }
+
         function exportCSV() {
-            if (records.length === 0) return showToast("沒有紀錄可匯出");
-            let csv = "\uFEFFW單號,運單號,姓,名,電話,Email,地址1,地址2,付款資訊,金額,記錄日期\n";
+            if (records.length === 0) return showToast("無資料可導出");
+            let csv = "\uFEFFW單號,運單號,姓,名,電話,Email,地址1,地址2,付款,金額,日期\n";
             records.forEach(r => {
                 csv += `"${r.w_order}","${r.tracking_no}","${r.lname}","${r.fname}","${r.phone}","${r.email}","${r.addr1}","${r.addr2}","${r.card}","${r.amount}","${r.date}"\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = `aos_report_${new Date().getTime()}.csv`;
+            link.download = `AOS_Export_${new Date().getTime()}.csv`;
             link.click();
         }
 
-        // 5. 匯入 CSV 邏輯
-        function importCSV(input) {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const rows = text.split('\n').slice(1); // 跳過表頭
-                const imported = [];
-                rows.forEach(row => {
-                    if (!row.trim()) return;
-                    // 簡單處理帶引號的 CSV 欄位
-                    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)?.map(c => c.replace(/"/g, '')) || [];
-                    if (cols.length >= 10) {
-                        imported.push({
-                            id: Date.now() + Math.random(),
-                            w_order: cols[0],
-                            tracking_no: cols[1],
-                            lname: cols[2],
-                            fname: cols[3],
-                            phone: cols[4],
-                            email: cols[5],
-                            addr1: cols[6],
-                            addr2: cols[7],
-                            card: cols[8],
-                            amount: cols[9],
-                            date: cols[10] || new Date().toLocaleString()
-                        });
-                    }
-                });
-                if (imported.length > 0) {
-                    records = [...imported, ...records];
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-                    renderRecords();
-                    showToast(`成功匯入 ${imported.length} 條紀錄`);
-                } else {
-                    showToast("檔案格式不正確或無資料");
-                }
-                input.value = ""; // 重置 input
-            };
-            reader.readAsText(file);
-        }
-
-        function copyToClipboard(id) {
-            const input = document.getElementById(id);
-            input.select();
-            document.execCommand('copy');
-            showToast("已複製到剪貼簿");
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 1500);
-        }
-
-        window.addEventListener('load', () => {
+        window.onload = () => {
             initStorage();
             generateAll();
-        });
+        };
     </script>
 </body>
 </html>
