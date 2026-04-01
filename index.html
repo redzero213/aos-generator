@@ -12,19 +12,21 @@
         .scroll-custom::-webkit-scrollbar { height: 6px; width: 4px; }
         .scroll-custom::-webkit-scrollbar-track { background: #f1f1f1; }
         .scroll-custom::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
-        input:focus { border-color: #3b82f6; outline: none; ring: 2px; ring-color: #bfdbfe; }
-        .tool-link { @apply flex flex-col items-center justify-center gap-1 p-3 bg-white border rounded-xl hover:shadow-md transition text-sm font-medium text-gray-700; }
         
-        /* 手機版分頁控制：確保隱藏的內容不佔空間也不會置頂 */
         @media (max-width: 1024px) {
-            .tab-content { display: none !important; position: static !important; }
+            .tab-content { display: none !important; }
             .tab-content.active { display: block !important; }
+        }
+
+        /* 統一按鈕基礎樣式 */
+        .tool-btn { 
+            @apply flex flex-col items-center justify-center gap-1 p-3 bg-white border border-gray-200 rounded-xl hover:shadow-md transition text-center shadow-sm h-full;
         }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <!-- 手機版頂部 Tab 切換 (固定置頂) -->
+    <!-- 手機版頂部 Tab 切換 -->
     <div class="xl:hidden flex bg-white border-b sticky top-0 z-50 shadow-sm">
         <button onclick="switchTab('generator')" id="tab-gen" class="flex-1 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600">🍎 生成資料</button>
         <button onclick="switchTab('records')" id="tab-rec" class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-gray-500">📋 查看紀錄</button>
@@ -105,7 +107,6 @@
                 </div>
 
                 <div class="overflow-y-auto scroll-custom flex-grow">
-                    <!-- 電腦版 Table -->
                     <table class="hidden md:table w-full text-left border-collapse">
                         <thead class="sticky top-0 bg-gray-50 z-10">
                             <tr class="text-[11px] font-bold text-gray-500 border-b uppercase">
@@ -118,35 +119,44 @@
                         </thead>
                         <tbody id="recordListDesktop"></tbody>
                     </table>
-
-                    <!-- 手機版 Card List -->
                     <div id="recordListMobile" class="md:hidden space-y-4"></div>
                 </div>
             </div>
         </div>
 
-        <!-- 底部快捷工具 -->
+        <!-- 底部快捷工具 (格式統一 + 直接顯示電話) -->
         <div class="mt-8 mb-12">
+            <p class="text-[10px] text-gray-400 mb-3 px-1 font-bold uppercase tracking-widest text-center md:text-left">快捷工具欄</p>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
-                <button onclick="smartCopy('27300273', '順豐')" class="tool-link shadow-sm border-gray-200">
-                    <span class="text-[9px] text-gray-400">SF Express</span>
-                    <span class="font-bold">📦 順豐 2730 0273</span>
+                <!-- 順豐 -->
+                <button onclick="smartCopy('27300273', '順豐')" class="tool-btn">
+                    <span class="text-[9px] text-gray-400 uppercase">SF Express</span>
+                    <span class="font-bold text-gray-800">📦 順豐客服</span>
+                    <span class="text-xs font-mono text-gray-500">2730 0273</span>
                 </button>
-                <button onclick="smartCopy('27300273', '黑貓')" class="tool-link shadow-sm border-gray-200">
-                    <span class="text-[9px] text-gray-400">Yamato</span>
-                    <span class="font-bold">🐈 黑貓 2730 0273</span>
+                <!-- 黑貓 -->
+                <button onclick="smartCopy('27300273', '黑貓')" class="tool-btn">
+                    <span class="text-[9px] text-gray-400 uppercase">Yamato</span>
+                    <span class="font-bold text-gray-800">🐈 黑貓宅急便</span>
+                    <span class="text-xs font-mono text-gray-500">2730 0273</span>
                 </button>
-                <button onclick="smartCopy('24003388', 'DHL')" class="tool-link shadow-sm border-gray-200">
-                    <span class="text-[9px] text-gray-400">DHL</span>
-                    <span class="font-bold">✈️ DHL 2400 3388</span>
+                <!-- DHL -->
+                <button onclick="smartCopy('24003388', 'DHL')" class="tool-btn">
+                    <span class="text-[9px] text-gray-400 uppercase">DHL HK</span>
+                    <span class="font-bold text-gray-800">✈️ DHL 支援</span>
+                    <span class="text-xs font-mono text-gray-500">2400 3388</span>
                 </button>
-                <button onclick="smartCopy('800908988', 'Apple支援')" class="tool-link bg-blue-50 border-blue-200">
-                    <span class="text-[9px] text-blue-400 uppercase">Apple Support</span>
-                    <span class="font-bold text-blue-600">800-908-988</span>
+                <!-- Apple (移除藍底) -->
+                <button onclick="smartCopy('800908988', 'Apple支援')" class="tool-btn">
+                    <span class="text-[9px] text-blue-400 uppercase font-bold">Apple Tech</span>
+                    <span class="font-bold text-blue-600">🎧 蘋果支援</span>
+                    <span class="text-xs font-mono text-blue-500">800-908-988</span>
                 </button>
-                <a href="https://www.apple.com/hk-zh/shop/order/list" target="_blank" class="tool-link bg-gray-800 text-white border-none">
-                    <span class="text-[9px] text-gray-400 uppercase">Official</span>
-                    <span class="font-bold text-white">🌐 官網追蹤</span>
+                <!-- 官網 (移除黑底) -->
+                <a href="https://www.apple.com/hk-zh/shop/order/list" target="_blank" class="tool-btn">
+                    <span class="text-[9px] text-gray-400 uppercase font-bold">AOS Portal</span>
+                    <span class="font-bold text-gray-800">🌐 官網追蹤</span>
+                    <span class="text-[10px] text-gray-400 italic">點擊跳轉官網</span>
                 </a>
             </div>
         </div>
@@ -159,12 +169,12 @@
         const STORAGE_KEY = 'aos_records_v4';
         let records = [];
 
-        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph"];
-        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok", "Hui", "Tsang", "Chu", "Chow"];
-        const bldgs = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens", "Taikoo Shing", "Nan Fung Centre"];
-        const streets = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street", "Queen's Road Central"];
-        const districts = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin", "Tsuen Wan", "Yuen Long"];
-        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk", "icloud.com"];
+        const firstNames = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth"];
+        const lastNames = ["Chan", "Lee", "Wong", "Ho", "Cheung", "Lau", "Lam", "Leung", "Ng", "Kwok"];
+        const bldgs = ["Kerry Centre", "Sino Centre", "Kornhill Gardens", "New Town Plaza", "Harbour City", "Telford Gardens"];
+        const streets = ["Nathan Road", "Hennessy Road", "Canton Road", "Des Voeux Road", "Argyle Street"];
+        const districts = ["Mong Kok", "Tsim Sha Tsui", "Causeway Bay", "Central", "Kwun Tong", "Shatin"];
+        const domains = ["gmail.com", "outlook.com", "yahoo.com.hk"];
 
         function initStorage() {
             const data = localStorage.getItem(STORAGE_KEY);
@@ -185,24 +195,21 @@
                 btnRec.className = "flex-1 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600";
                 btnGen.className = "flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-gray-500";
             }
-            window.scrollTo(0, 0); // 切換標籤時回到最頂
+            window.scrollTo(0, 0);
         }
 
         function generateAll() {
             const lname = lastNames[Math.floor(Math.random() * lastNames.length)];
             const fname = firstNames[Math.floor(Math.random() * firstNames.length)];
             document.getElementById('full_name').value = `${lname} ${fname}`;
-            
-            const prefix = [2, 3, 5, 6, 9][Math.floor(Math.random() * 5)];
+            const prefix = [5, 6, 9][Math.floor(Math.random() * 3)];
             let phone = prefix.toString();
             for(let i=0; i<7; i++) phone += Math.floor(Math.random() * 10);
             document.getElementById('phone').value = phone;
-            
             const emailBase = fname.toLowerCase() + Math.floor(Math.random()*999);
             document.getElementById('email').value = `${emailBase}@${domains[Math.floor(Math.random() * domains.length)]}`;
             document.getElementById('addr1').value = `Unit ${Math.floor(Math.random()*20+1)}A, ${Math.floor(Math.random()*50+1)}/F, ${bldgs[Math.floor(Math.random()*bldgs.length)]}`;
             document.getElementById('addr2').value = `No. ${Math.floor(Math.random()*99+1)} ${streets[Math.floor(Math.random()*streets.length)]}, ${districts[Math.floor(Math.random()*districts.length)]}`;
-            
             document.getElementById('w_order').value = "";
             document.getElementById('tracking_no').value = "";
             document.getElementById('card_info').value = "";
@@ -212,13 +219,10 @@
         function saveRecord() {
             const name = document.getElementById('full_name').value;
             if (!name) return showToast("請先生成資料");
-
             const newRecord = {
                 id: Date.now(),
                 w_order: document.getElementById('w_order').value || 'N/A',
                 tracking_no: document.getElementById('tracking_no').value || 'N/A',
-                card: document.getElementById('card_info').value || '-',
-                amount: document.getElementById('amount').value || '0',
                 name: name,
                 addr1: document.getElementById('addr1').value,
                 addr2: document.getElementById('addr2').value,
@@ -226,7 +230,6 @@
                 email: document.getElementById('email').value,
                 date: new Date().toLocaleString('zh-HK', {hour12:false, month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'})
             };
-
             records.unshift(newRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
             renderRecords();
@@ -236,14 +239,11 @@
         function renderRecords() {
             const desk = document.getElementById('recordListDesktop');
             const mob = document.getElementById('recordListMobile');
-            
             if (records.length === 0) {
-                const empty = `<tr><td colspan="5" class="p-10 text-center text-gray-300 italic">暫無歷史紀錄</td></tr>`;
-                desk.innerHTML = empty;
+                desk.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-300 italic">暫無歷史紀錄</td></tr>`;
                 mob.innerHTML = `<div class="text-center p-10 text-gray-400">暫無歷史紀錄</div>`;
                 return;
             }
-
             desk.innerHTML = records.map(r => `
                 <tr class="border-b hover:bg-gray-50 transition align-top">
                     <td class="p-3">
@@ -263,7 +263,6 @@
                     </td>
                 </tr>
             `).join('');
-
             mob.innerHTML = records.map(r => `
                 <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 shadow-sm relative">
                     <button onclick="deleteRecord(${r.id})" class="absolute top-4 right-4 text-red-300 text-lg">✕</button>
@@ -299,7 +298,7 @@
             temp.select();
             document.execCommand('copy');
             document.body.removeChild(temp);
-            showToast(`已複製收件人電話！${label}熱線：${hotline}`);
+            showToast(`已複製收件人電話！${label}：${hotline}`);
         }
 
         function copyToClipboard(id) {
